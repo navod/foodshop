@@ -1,0 +1,57 @@
+create database foodshop;
+use foodshop;
+
+create table login(
+	loginId varchar(10),
+	logName varchar(10),
+	logPassword varchar(10),
+	constraint primary key(loginId)
+);
+
+create table customer(
+	custId varchar(10),
+	custContact varchar(15),
+	custName varchar(30),
+	custAddress varchar(50),
+	constraint primary key(custContact)
+);
+
+create table food(
+	foodId varchar(10),
+	fName varchar(20),
+	unitPrice decimal(10,2),
+	constraint primary key(foodId)
+);
+
+create table orders(
+	oid varchar(10),
+	custContact varchar(15),
+	inDate date,
+	constraint primary key(oid),
+	constraint foreign key (custContact) references customer(custContact)on delete cascade on update cascade
+);
+
+create table orderdetail(
+	oid varchar(10),
+	foodId varchar(10),
+	qty int(10),
+	total decimal(10,2),
+	constraint foreign key (oid) references orders(oid)on delete cascade on update cascade,
+	constraint foreign key (foodId) references food(foodId)on delete cascade on update cascade
+);
+
+create table invoice(
+	invoicId varchar(10),
+	inDate date,
+	constraint primary key(invoicId)
+);
+
+create table invoicedetail(
+	invoicId varchar(10),
+	foodId varchar(10),
+	qty int(10),
+	total int(10),
+	constraint foreign key (invoicId) references invoice(invoicId)on delete cascade on update cascade,
+	constraint foreign key (foodId) references food(foodId)on delete cascade on update cascade
+	
+);
